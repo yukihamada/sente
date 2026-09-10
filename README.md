@@ -146,6 +146,10 @@ Xcode の Command Line Tools（`swiftc`）が必要です。Xcode プロジェ�
 
 ---
 
+## セキュリティ
+
+脆弱性の報告は [SECURITY.md](./SECURITY.md) へ（公開 Issue ではなくメールでお願いします）。
+
 ## ライセンス
 
 MIT License. Copyright (c) 2026 Yuki Hamada.

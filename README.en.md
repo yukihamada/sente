@@ -144,6 +144,10 @@ Requires Xcode Command Line Tools (`swiftc`). No Xcode project needed — one `s
 
 ---
 
+## Security
+
+See [SECURITY.md](./SECURITY.md) for how to report a vulnerability (please use email rather than a public issue).
+
 ## License
 
 MIT License. Copyright (c) 2026 Yuki Hamada.
