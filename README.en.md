@@ -1,5 +1,7 @@
 # Sente
 
+English | [日本語](./README.md)
+
 **A coding agent you use with your voice.** One terminal — or one menu bar icon — and you just talk.
 
 ```sh
