@@ -31,6 +31,8 @@ koe                  # talk, and hear the answer back (Ctrl-C to quit)
 
 On macOS, the **Sente.app** menu bar app is also available:
 
+![Sente.app in the menu bar](./assets/menubar-app.png)
+
 ```sh
 te app install
 ```

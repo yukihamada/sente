@@ -31,6 +31,8 @@ koe                  # 話しかけて、返事も声で返ってくる（Ctrl-C
 
 macOS ならメニューバー常駐の **Sente.app** も入ります。
 
+![メニューバーの Sente.app](./assets/menubar-app.png)
+
 ```sh
 te app install
 ```
