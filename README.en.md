@@ -4,6 +4,8 @@ English | [日本語](./README.md)
 
 **A coding agent you use with your voice.** One terminal — or one menu bar icon — and you just talk.
 
+![Using Sente in the terminal](./assets/terminal.png)
+
 ```sh
 curl -fsSL https://teai.io/te | sh
 ```
@@ -121,6 +123,8 @@ The questions and answers are public data, so anyone can reproduce the same comp
 | `te voice <id>` | switch voice (`te voice enroll` to register your own) |
 | `te voice queue` | show queued utterances |
 | `te voice stop` / `skip` | stop / skip to the next |
+
+![Voice conversation session](./assets/voice-session.png)
 
 **Voices never overlap, even when you run several terminals at once.** When Sente detects multiple concurrent sessions, it queues the utterances and speaks them together. With a single session it speaks immediately. Three or more queued items are summarized into one concise report.
 
