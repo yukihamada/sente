@@ -8,6 +8,21 @@ An AI coding agent you can use with text or voice. Start it in your project fold
 
 ![Sente terminal interface](./assets/terminal.png)
 
+## Watch it (30 s, real recording)
+
+[![Sente reading a repository and explaining it](./assets/tui-recording.png)](https://teai.io/sente-tui-30s.mp4)
+
+Not a re-created screen: this is a real Sente session given the example prompt from this README, run against this public repository.
+
+```
+Explain the structure of this project, how to start it and how to run tests. Don’t edit any files yet.
+```
+
+Sente opened `README.md`, `CONTRIBUTING.md`, `te-install.sh` and `Sente.swift` on its own and answered in Japanese (57.7 s measured). No file was changed. Narration uses the author’s KOE-cloned voice.
+
+- [30-second version](https://teai.io/sente-tui-30s.mp4) · [15-second version](https://teai.io/sente-tui-15s.mp4)
+- One request consumed 32.6 credits during the recording (about ¥5.4; ¥1 = 6 credits) across six exchanges on GLM-5.2. Cost varies with the model, the request and how much code is read. No speed advantage is claimed.
+
 | When you need to… | Try asking… |
 |---|---|
 | Understand an unfamiliar repository | “Explain the structure, how to start it and how to run tests. Don’t edit anything yet.” |
