@@ -1,161 +1,176 @@
 # Sente
 
-English | [日本語](./README.md)
+### Describe what you want. Read the code. Make the change. Check it.
 
-**A coding agent you use with your voice.** One terminal — or one menu bar icon — and you just talk.
+An AI coding agent you can use with text or voice. Start it in your project folder to investigate files, edit code and run commands. Switch the underlying model to suit the task, with Japanese and English workflows.
 
-![Using Sente in the terminal](./assets/terminal.png)
+**[Get started](#start) · [Examples](#examples) · [Switch models](#models) · [Core source](https://github.com/yukihamada/opencode/tree/headless-model-fallback) · [日本語](./README.md)**
+
+![Sente terminal interface](./assets/terminal.png)
+
+| When you need to… | Try asking… |
+|---|---|
+| Understand an unfamiliar repository | “Explain the structure, how to start it and how to run tests. Don’t edit anything yet.” |
+| Fix a bug | “Reproduce the failure, fix the cause and run the relevant tests.” |
+| Build a page or feature | “Improve this page on mobile and make the changes easy to review.” |
+| Continue earlier work | Run `te resume` to reopen the previous session |
+
+> This repository contains the **getting-started guide, launcher and macOS menu bar app**. The terminal UI and coding-agent core live in a separate [public repository](https://github.com/yukihamada/opencode/tree/headless-model-fallback).
+
+<a id="start"></a>
+## Get started
+
+### 1. Install
+
+Paste this into a terminal on macOS, Linux or Windows with WSL:
 
 ```sh
 curl -fsSL https://teai.io/te | sh
 ```
 
-- **macOS / Linux** — works as-is
-- **Windows** — inside WSL (full functionality). Native Windows has a PowerShell installer (binary only)
-- Requires: `python3` (preinstalled on most systems)
+Requires **`curl` and `python3`**. Follow the installer’s guidance for missing dependencies. A microphone is not required for text input.
 
----
-
-## Start in 30 seconds
+To inspect the installer before running it:
 
 ```sh
-te register          # email only, no browser needed
-te "what should I do first?"
+curl -fL --max-time 120 https://teai.io/te -o sente-install.sh
+less sente-install.sh
+sh sente-install.sh
 ```
 
-With your voice:
+### 2. Register
 
 ```sh
-koe                  # talk, and hear the answer back (Ctrl-C to quit)
+te register
 ```
 
-On macOS, the **Sente.app** menu bar app is also available:
+Enter your email address and the verification code you receive. Already registered? Use `te login`.
 
-![Sente.app in the menu bar](./assets/menubar-app.png)
+**The source code is MIT-licensed; AI, voice and other hosted services have separate usage costs.** This setup uses teai.io. See [pricing](https://teai.io/pricing) and run `te stats` to check your balance and usage.
+
+### 3. Start in your project folder
+
+Navigate to the project you want to work on, then run:
+
+```sh
+te
+```
+
+For your first request, type:
+
+> Explain this project’s structure, startup instructions and test commands. Don’t change any files yet.
+
+Once you understand the project, ask for a change. Review tool-execution prompts when they appear.
+
+<a id="examples"></a>
+## Give it real work
+
+Use `te` for an interactive conversation or `te run` for a single task.
+
+```sh
+# Implement and verify a change
+te run "Improve this page on mobile. Run the existing tests and explain the changes."
+
+# Investigate and fix a bug
+te run "Find the cause of the failing tests, make the necessary fix and rerun the relevant tests."
+
+# Resume previous work
+te resume
+```
+
+Include the **goal, target and definition of done**. For example: “Make login errors easier to understand. Match the existing design and check the failure state.”
+
+Review the diff and test results afterwards. Dependencies, permissions and connected services affect which tasks can be completed.
+
+<a id="models"></a>
+## Switch the underlying model
+
+Choose a model for a quick fix, a design discussion or a larger investigation without changing your working environment.
+
+| Default terminal shortcut | Action |
+|---|---|
+| **F2 / Shift+F2** | Next / previous recently used model |
+| **Ctrl+X, then M** | Open the model list |
+| **F1** | Toggle spoken replies |
+| **Shift+F1** | Help |
+
+Bindings can differ by release or personal configuration. On a Mac, you may need to hold Fn when using function keys.
+
+You can also select a model from the command line:
+
+```sh
+te models           # List available model IDs
+te model            # Show the current default
+te model teai/auto  # Use automatic selection by default
+```
+
+Use `te model <model-id>` to set a specific default. Copy an ID from the model list. Availability and pricing change, so this README does not maintain a fixed model ranking.
+
+## Use your voice (optional)
+
+```sh
+koe                 # Continuous voice conversation; Ctrl+C to quit
+te voice off        # Disable spoken replies
+te voice on         # Enable spoken replies
+te voice enroll     # Open the voice-registration page
+```
+
+Recording requires **a microphone and SoX**. Voice features also need a supported playback environment and service connectivity. Run `te doctor` to check dependencies. Voice registration is optional; you can work entirely with text.
+
+<details>
+<summary>Use the macOS menu bar app</summary>
 
 ```sh
 te app install
 ```
 
----
+![Sente.app menu bar interface](./assets/menubar-app.png)
 
-## For you
+The macOS app works with the terminal launcher. [Build instructions](./CONTRIBUTING.md) are also available.
 
-### Developers
+</details>
 
-```sh
-te run "fix the tests in this repo"   # run inside your working directory
-te -m teai/auto "..."                 # pick a model
-te resume                             # resume the last session
-te models                             # list available models
-te doctor                             # diagnose the environment
+## Building Sente with Sente
+
+We use Sente to develop Sente itself, turning friction found in real tasks into improvements.
+
+```text
+Use it → find friction → change the code → test and measure → release the next version
 ```
 
-The `/v1/chat/completions`-compatible API works directly, and existing coding-agent CLIs can connect to it.
+This is what we mean by **recursive self-improvement**: a development loop in which people set goals and review changes. Installing Sente does not give it unconditional permission to rewrite or publish itself.
 
-### Non-developers
+The aim is fewer round trips between a request and a finished result. Speed depends on the model, task and environment; no universal speed multiplier is promised.
 
-You don't need to memorize commands. Install Sente.app, click the icon, and talk. The answer comes back as speech.
+## Troubleshooting
 
-### IT / security
-
-Run `te privacy` — it prints exactly what this build sends and where, so you can check it against your own security policy before rollout or deployment. It is more accurate than any README.
-
-In short:
-
-- Prompts and code context → `teai.io` (for inference and billing)
-- Voice → `koe.live` for transcription. **Audio retention is off by default** (`te privacy stt-log on` to opt in)
-- **PII scrubbing** (optional, opt-in): `te privacy scrub on` detects names, addresses, phone numbers, and API keys locally — with a local Ollama model plus pattern matching — and replaces them with placeholders before sending. If Ollama is unavailable it **stops with an error rather than sending plaintext** (fail-closed)
-- **BYOK**: `te byok add <provider> <key>` lets you register your own API keys (run `te byok` for supported providers)
-
-### Cost-conscious
-
-```sh
-te stats            # balance and per-model breakdown
-te topup 10000      # top up (¥1 = 6 credits)
-```
-
-`te fast` selects a cheaper model. `te stats` shows exactly where your credits go.
-
-### Batch / high volume
-
-Built for volume: thousands of requests a day go through the same endpoint without extra setup.
-
-Run large batches by calling the `/v1/chat/completions`-compatible endpoint in parallel — it handles high volume as-is. `te run` retries once with the next model when a failure is model-related (disable with `TE_NO_FALLBACK=1`), so a long batch is less likely to stop halfway.
-You can retry per request, and failures are reported per item rather than aborting the whole run.
-
-### Japanese-first
-
-Both the UI and the voice default to Japanese. `te lang en` switches to English. Speech synthesis and recognition run on koe.live, which is strong in Japanese.
-
-### Voice creators
-
-```sh
-te voice enroll     # register your own voice from a 15-second recording
-te voice <that-id>  # replies come back in your voice
-koe "text to speak" # one-off synthesis
-```
-
-### Built in Japan
-
-teai.io and koe.live are operated by Enabler Inc., based in Tokyo, Japan. The speech stack is developed in Japan as well.
-
-### Researchers
-
-```sh
-te bench                          # run the public benchmark on your model
-te bench jp-business teai/auto    # pick an eval set and a model
-```
-
-The questions and answers are public data, so anyone can reproduce the same comparison — you can compare models on identical problems, and the result holds up when others run it.
-
-### Executives
-
-`te stats` is the single source of truth for cost. For team rollout, `te byok add` lets you register your company's own API keys.
-
----
-
-## Voice (KOE)
-
-| Command | What it does |
+| Symptom | First step |
 |---|---|
-| `koe` / `te talk` | continuous voice conversation |
-| `te v` | one-shot voice instruction |
-| `te voice on` / `off` | toggle spoken replies (takes effect immediately) |
-| `te voice <id>` | switch voice (`te voice enroll` to register your own) |
-| `te voice queue` | show queued utterances |
-| `te voice stop` / `skip` | stop / skip to the next |
+| `te: command not found` | Reopen your terminal, then check the PATH guidance printed by the installer |
+| Authentication error | Run `te login` |
+| Insufficient balance or unavailable model | Check `te stats` and `te models` |
+| No sound or microphone input | Check `te doctor`, microphone permission and `te voice on` |
+| Shortcuts differ from this guide | Check Shift+F1, Fn-key settings and your personal configuration |
+| Need an update | Run `te update`, then restart Sente |
 
-![Voice conversation session](./assets/voice-session.png)
+On Windows, start with the WSL instructions above. [Native core binaries](https://github.com/yukihamada/opencode/releases) are also available, separately from the shell launcher and macOS app.
 
-**Voices never overlap, even when you run several terminals at once.** When Sente detects multiple concurrent sessions, it queues the utterances and speaks them together. With a single session it speaks immediately. Three or more queued items are summarized into one concise report.
+## Source, data and contributing
 
----
+| What you need | Where to find it |
+|---|---|
+| Installer and `te` launcher | [`te-install.sh`](./te-install.sh) |
+| macOS menu bar app | [`sente-app/`](./sente-app/) |
+| Terminal UI and agent core | [Public fork’s release branch](https://github.com/yukihamada/opencode/tree/headless-model-fallback) |
+| Core binaries | [Releases](https://github.com/yukihamada/opencode/releases) |
+| Bug reports and contributions | [CONTRIBUTING.md](./CONTRIBUTING.md) |
 
-## Where your data goes
+The core builds on [OpenCode](https://github.com/anomalyco/opencode). Copyright notices and licenses for the respective sources are retained.
 
-Run `te privacy`. It describes the implementation as it actually is.
+With the standard teai.io setup, prompts and relevant code context are sent to external services for inference. Voice features also use KOE. Destinations depend on configuration; check `te privacy` and the [privacy policy](https://teai.io/privacy). Never include API keys or passwords in an issue.
 
----
+The launcher here is a public snapshot. The installation URL fetches the current distributed version, which may differ from the file in this repository.
 
-## Building Sente.app
+**MIT License** — [LICENSE](./LICENSE) / Vulnerability reports: [SECURITY.md](./SECURITY.md)
 
-```sh
-cd sente-app
-./build.sh              # → build/Sente.app
-./build.sh --install    # → installs to /Applications
-```
-
-Requires Xcode Command Line Tools (`swiftc`). No Xcode project needed — one `swiftc` invocation plus a hand-assembled bundle.
-
----
-
-## Security
-
-See [SECURITY.md](./SECURITY.md) for how to report a vulnerability (please use email rather than a public issue).
-
-## License
-
-MIT License. Copyright (c) 2026 Yuki Hamada.
-
-Covers both `te-install.sh` (the command) and `sente-app/` (the macOS app).
+Developed and operated by Enabler Inc., Japan.
